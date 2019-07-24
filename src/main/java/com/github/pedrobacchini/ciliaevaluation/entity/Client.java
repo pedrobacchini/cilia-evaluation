@@ -1,12 +1,13 @@
 package com.github.pedrobacchini.ciliaevaluation.entity;
 
+import com.github.pedrobacchini.ciliaevaluation.constraints.BrazilFullName;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -25,8 +26,9 @@ public class Client implements Serializable {
     private UUID uuid;
 
     @NotNull
+    @Size(max = 100)
+    @BrazilFullName
     @Column(nullable = false, length = 100)
-    @Pattern(regexp = "^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)\\s*?|(?:[A-Z][^\\s]*\\s*?)(?!.*[ ]$))+$")
     private String name;
 
 
@@ -39,11 +41,7 @@ public class Client implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date birthdate;
 
-    public Client(@NotNull
-                  @Pattern(regexp = "^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)\\s*?|(?:[A-Z][^\\s]*\\s*?)(?!.*[ ]$))+$")
-                          String name,
-                  @Email
-                  @NotNull String email) {
+    public Client(@NotNull @Size(max = 100) @BrazilFullName String name, @Email @NotNull String email) {
         this.name = name;
         this.email = email;
     }
