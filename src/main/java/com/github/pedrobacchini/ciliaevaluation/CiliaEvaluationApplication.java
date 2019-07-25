@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -18,9 +20,11 @@ public class CiliaEvaluationApplication implements CommandLineRunner {
     public static void main(String[] args) { SpringApplication.run(CiliaEvaluationApplication.class, args); }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws ParseException {
         Client client1 = new Client("Pedro Bacchini", "pedrobacchini@outlook.com");
         Client client2 = new Client("Maria Silva", "mariasilva@outlook.com");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        client2.setBirthdate(simpleDateFormat.parse("13/05/1990"));
 
         clientRepository.saveAll(Arrays.asList(client1, client2));
 

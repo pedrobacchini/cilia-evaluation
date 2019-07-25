@@ -32,4 +32,10 @@ public class ClientServiceImpl implements ClientService {
                         new ObjectNotFoundException(customMessageSource
                                 .getMessage("object-not-found", uuid, Client.class.getName())));
     }
+
+    @Override
+    public boolean exists(String email) { return clientRepository.findByEmail(email).isPresent(); }
+
+    @Override
+    public Client createClient(Client client) { return clientRepository.save(client); }
 }

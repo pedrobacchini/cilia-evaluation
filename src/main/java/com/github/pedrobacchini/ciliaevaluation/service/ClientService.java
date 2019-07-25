@@ -10,4 +10,8 @@ public interface ClientService {
     List<Client> getAllClients();
 
     Client getClientById(UUID uuid);
+
+    boolean exists(String email);
+
+    Client createClient(Client client);
 }
