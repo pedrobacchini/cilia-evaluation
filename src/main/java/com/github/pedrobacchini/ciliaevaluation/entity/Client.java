@@ -1,6 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.entity;
 
-import com.github.pedrobacchini.ciliaevaluation.constraints.BrazilFullName;
+import com.github.pedrobacchini.ciliaevaluation.constraint.BrazilFullName;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Getter
+@ToString
 @EqualsAndHashCode(of = {"uuid"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 public class Client implements Serializable {

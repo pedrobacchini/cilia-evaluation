@@ -24,6 +24,7 @@ public class ClientTest extends ValidationTest {
     private static final Long DEFAULT_BIRTHDATE = 642481200000L;
     private static final String DEFAULT_EMAIL = "pedro.bacchini@outlook.com";
 
+    private static final String PROPERTY_UUID = "uuid";
     private static final String PROPERTY_NAME = "name";
     private static final String PROPERTY_EMAIL = "email";
 
@@ -159,8 +160,8 @@ public class ClientTest extends ValidationTest {
     public void shouldDetectEqualsClients() {
         UUID uuid = UUID.randomUUID();
         Client defaultClient = createDefaultClient();
-        ReflectionTestUtils.setField(defaultClient, "uuid", uuid);
-        ReflectionTestUtils.setField(OTHER_CLIENT, "uuid", uuid);
+        ReflectionTestUtils.setField(defaultClient, PROPERTY_UUID, uuid);
+        ReflectionTestUtils.setField(OTHER_CLIENT, PROPERTY_UUID, uuid);
         assertThat(defaultClient.equals(OTHER_CLIENT)).isTrue();
         assertThat(defaultClient.hashCode() == OTHER_CLIENT.hashCode()).isTrue();
     }
@@ -169,7 +170,7 @@ public class ClientTest extends ValidationTest {
     @Test
     public void shouldDetectNotEqualsClients() {
         Client a = createDefaultClient();
-        ReflectionTestUtils.setField(OTHER_CLIENT, "uuid", UUID.randomUUID());
+        ReflectionTestUtils.setField(OTHER_CLIENT, PROPERTY_UUID, UUID.randomUUID());
         assertThat(a.equals(OTHER_CLIENT)).isFalse();
         assertThat(a.hashCode() == OTHER_CLIENT.hashCode()).isFalse();
     }

@@ -1,4 +1,4 @@
-package com.github.pedrobacchini.ciliaevaluation.constraints;
+package com.github.pedrobacchini.ciliaevaluation.constraint;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
