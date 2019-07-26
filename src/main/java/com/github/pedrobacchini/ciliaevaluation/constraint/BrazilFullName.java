@@ -3,6 +3,7 @@ package com.github.pedrobacchini.ciliaevaluation.constraint;
 import org.hibernate.validator.constraints.ConstraintComposition;
 
 import javax.validation.Constraint;
+import javax.validation.OverridesAttribute;
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 import java.lang.annotation.Documented;
@@ -23,7 +24,8 @@ import static org.hibernate.validator.constraints.CompositionType.OR;
 @Pattern(regexp = "^(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*(?: (?:(?:e|y|de(?:(?: la| las| lo| los))?|do|dos|da|das|del|van|von|bin|le) )?(?:(?:(?:d'|D'|O'|Mc|Mac|al-))?(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+|(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*))+(?: (?:Jr\\.|II|III|IV))?$")
 public @interface BrazilFullName {
 
-    String message() default "Invalid Brazilian full name.";
+    @OverridesAttribute(constraint = Pattern.class, name = "message")
+    String message() default "{com.github.pedrobacchini.ciliaevaluation.constraint.BrazilFullName.message}";
 
     Class<?>[] groups() default {};
 

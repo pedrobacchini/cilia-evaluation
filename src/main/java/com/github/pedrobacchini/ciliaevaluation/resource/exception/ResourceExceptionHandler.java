@@ -2,7 +2,6 @@ package com.github.pedrobacchini.ciliaevaluation.resource.exception;
 
 import com.github.pedrobacchini.ciliaevaluation.config.CustomMessageSource;
 import com.github.pedrobacchini.ciliaevaluation.service.exception.ObjectNotFoundException;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +37,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     @NotNull
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String friendlyMessage = customMessageSource.getMessage("validation-error", null, LocaleContextHolder.getLocale());
+        String friendlyMessage = customMessageSource.getMessage("validation-error");
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage);
         apiError.addBindingResult(ex.getBindingResult());
         return handleExceptionInternal(ex, apiError, headers, HttpStatus.BAD_REQUEST, request);

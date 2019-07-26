@@ -1,6 +1,7 @@
 package com.github.pedrobacchini.ciliaevaluation.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.github.pedrobacchini.ciliaevaluation.constraint.BrazilFullName;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,8 +27,7 @@ public class Client implements Serializable {
 
     @NotEmpty
     @Size(max = 100)
-    @Pattern(regexp = "^(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*(?: (?:(?:e|y|de(?:(?: la| las| lo| los))?|do|dos|da|das|del|van|von|bin|le) )?(?:(?:(?:d'|D'|O'|Mc|Mac|al-))?(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+|(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*))+(?: (?:Jr\\.|II|III|IV))?$",
-            message = "{client.name.pattern}")
+    @BrazilFullName
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -42,7 +42,7 @@ public class Client implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date birthdate;
 
-    public Client(@NotNull @Size(max = 100) String name, @Email @NotNull String email) {
+    public Client(@NotEmpty @Size(max = 100) @BrazilFullName String name, @Email @NotEmpty String email) {
         this.name = name;
         this.email = email;
     }
