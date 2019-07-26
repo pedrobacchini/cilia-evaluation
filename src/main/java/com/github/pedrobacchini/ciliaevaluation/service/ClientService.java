@@ -1,5 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.service;
 
+import com.github.pedrobacchini.ciliaevaluation.dto.ClientRegister;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface ClientService {
 
     Client getClientById(UUID uuid);
 
-    Client createClient(Client client);
+    Client createClient(ClientRegister clientRegister);
 }

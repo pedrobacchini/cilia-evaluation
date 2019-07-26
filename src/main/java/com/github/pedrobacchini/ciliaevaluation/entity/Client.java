@@ -25,15 +25,10 @@ public class Client implements Serializable {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID uuid;
 
-    @NotEmpty
-    @FullName
-    @Size(max = 100)
     @Column(nullable = false, length = 100)
     private String name;
 
 
-    @Email
-    @NotEmpty
     @Column(nullable = false, length = 100, unique = true)
     private String email;
 
@@ -42,7 +37,7 @@ public class Client implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date birthdate;
 
-    public Client(@NotEmpty @Size(max = 100) @FullName String name, @Email @NotEmpty String email) {
+    public Client(String name, String email) {
         this.name = name;
         this.email = email;
     }

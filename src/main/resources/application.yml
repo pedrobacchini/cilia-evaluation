@@ -1,6 +1,6 @@
 spring:
   profiles:
     active: test
-#  jackson:
-#    deserialization:
-#      fail-on-unknown-properties: true
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true

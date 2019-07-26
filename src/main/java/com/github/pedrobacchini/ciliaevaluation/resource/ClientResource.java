@@ -1,5 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.resource;
 
+import com.github.pedrobacchini.ciliaevaluation.dto.ClientRegister;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
@@ -39,9 +40,15 @@ public class ClientResource {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Client> createClient(@RequestBody @Valid Client client, HttpServletResponse response) {
-        Client savedClient = clientService.createClient(client);
-        publisher.publishEvent(new ResourceCreatedEvent(this, response, savedClient.getUuid()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedClient);
+    public ResponseEntity<Client> createClient(@RequestBody @Valid ClientRegister clientRegister, HttpServletResponse response) {
+        Client createdClient = clientService.createClient(clientRegister);
+        publisher.publishEvent(new ResourceCreatedEvent(this, response, createdClient.getUuid()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
     }
+
+//    @PutMapping("/{uuid}")
+//    public ResponseEntity<Client> updateClient(@PathVariable("uuid") String uuid, @RequestBody Client client) {
+//        return
+//        return userService.update(id, user);
+//    }
 }

@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ClientRepository extends UuidRepository<Client> {
 
     @Transactional(readOnly = true)
-    Optional<Client> findByEmail(String name);
+    Optional<Client> findByEmail(String email);
 }

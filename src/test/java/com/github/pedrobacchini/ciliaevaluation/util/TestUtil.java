@@ -33,6 +33,9 @@ public class TestUtil {
                         constraintViolation.getConstraintDescriptor().getAnnotation().annotationType())
                 .collect(Collectors.toList());
 
+        constraintAnnotationType.forEach(System.out::println);
+        constraintAnnotationTypeExpected.forEach(System.out::println);
+
         assertThat(constraintAnnotationType.containsAll(constraintAnnotationTypeExpected)).isTrue();
 
         ConstraintViolationImpl violation = (ConstraintViolationImpl) constraintViolations.iterator().next();

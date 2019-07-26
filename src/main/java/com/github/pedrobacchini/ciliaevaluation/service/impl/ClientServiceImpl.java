@@ -1,6 +1,7 @@
 package com.github.pedrobacchini.ciliaevaluation.service.impl;
 
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
+import com.github.pedrobacchini.ciliaevaluation.dto.ClientRegister;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
 import com.github.pedrobacchini.ciliaevaluation.resource.exception.ObjectAlreadyExistException;
@@ -37,11 +38,19 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Client createClient(Client client) {
-        clientRepository.findByEmail(client.getEmail())
-                .orElseThrow(() ->
-                        new ObjectAlreadyExistException(localeMessageSource
-                                .getMessage("object-already-exist", client.getEmail(), Client.class.getName())));
+    public Client createClient(ClientRegister clientRegister) {
+        clientRepository.findByEmail(clientRegister.getEmail())
+                .ifPresent(found -> {
+                    throw new ObjectAlreadyExistException(localeMessageSource
+                            .getMessage("object-already-exist", found.getEmail(), Client.class.getName()));
+                });
+        Client client = fromDTO(clientRegister);
         return clientRepository.save(client);
+    }
+
+    private Client fromDTO(ClientRegister clientRegister) {
+        Client client = new Client(clientRegister.getName(), clientRegister.getEmail());
+        client.setBirthdate(clientRegister.getBirthdate());
+        return client;
     }
 }
