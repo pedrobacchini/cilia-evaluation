@@ -3,9 +3,11 @@ package com.github.pedrobacchini.ciliaevaluation.service.impl;
 import com.github.pedrobacchini.ciliaevaluation.config.CustomMessageSource;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
+import com.github.pedrobacchini.ciliaevaluation.resource.exception.ObjectAlreadyExistException;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
 import com.github.pedrobacchini.ciliaevaluation.service.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,8 +36,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean exists(String email) { return clientRepository.findByEmail(email).isPresent(); }
-
-    @Override
-    public Client createClient(Client client) { return clientRepository.save(client); }
+    @Transactional
+    public Client createClient(Client client) {
+        clientRepository.findByEmail(client.getEmail())
+                .orElseThrow(() ->
+                        new ObjectAlreadyExistException(customMessageSource
+                                .getMessage("object-already-exist", client.getEmail(), Client.class.getName())));
+        return clientRepository.save(client);
+    }
 }

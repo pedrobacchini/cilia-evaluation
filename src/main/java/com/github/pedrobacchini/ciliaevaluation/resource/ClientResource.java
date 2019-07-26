@@ -1,9 +1,7 @@
 package com.github.pedrobacchini.ciliaevaluation.resource;
 
-import com.github.pedrobacchini.ciliaevaluation.config.CustomMessageSource;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
-import com.github.pedrobacchini.ciliaevaluation.resource.exception.ObjectAlreadyExistException;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -24,14 +22,11 @@ public class ClientResource {
 
     private final ClientService clientService;
     private final ApplicationEventPublisher publisher;
-    private final CustomMessageSource customMessageSource;
 
     public ClientResource(ClientService clientService,
-                          ApplicationEventPublisher publisher,
-                          CustomMessageSource customMessageSource) {
+                          ApplicationEventPublisher publisher) {
         this.clientService = clientService;
         this.publisher = publisher;
-        this.customMessageSource = customMessageSource;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -45,8 +40,6 @@ public class ClientResource {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Client> createClient(@RequestBody @Valid Client client, HttpServletResponse response) {
-        if(clientService.exists(client.getEmail()))
-            throw new ObjectAlreadyExistException(customMessageSource.getMessage("object-already-exist", client.getEmail(), Client.class.getName()));
         Client savedClient = clientService.createClient(client);
         publisher.publishEvent(new ResourceCreatedEvent(this, response, savedClient.getUuid()));
         return ResponseEntity.status(HttpStatus.CREATED).body(savedClient);

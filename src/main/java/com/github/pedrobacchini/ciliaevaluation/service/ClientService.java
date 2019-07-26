@@ -11,7 +11,5 @@ public interface ClientService {
 
     Client getClientById(UUID uuid);
 
-    boolean exists(String email);
-
     Client createClient(Client client);
 }
