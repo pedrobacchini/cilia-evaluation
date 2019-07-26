@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface ClientRepository extends CustomRepository<Client> {
+public interface ClientRepository extends UuidRepository<Client> {
 
     @Transactional(readOnly = true)
     Optional<Client> findByEmail(String name);

@@ -20,12 +20,12 @@ import static org.hibernate.validator.constraints.CompositionType.OR;
 @Constraint(validatedBy = {})
 @Documented
 @ConstraintComposition(OR)
-@Repeatable(BrazilFullName.List.class)
+@Repeatable(FullName.List.class)
 @Pattern(regexp = "^(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*(?: (?:(?:e|y|de(?:(?: la| las| lo| los))?|do|dos|da|das|del|van|von|bin|le) )?(?:(?:(?:d'|D'|O'|Mc|Mac|al-))?(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+|(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*))+(?: (?:Jr\\.|II|III|IV))?$")
-public @interface BrazilFullName {
+public @interface FullName {
 
     @OverridesAttribute(constraint = Pattern.class, name = "message")
-    String message() default "{com.github.pedrobacchini.ciliaevaluation.constraint.BrazilFullName.message}";
+    String message() default "{com.github.pedrobacchini.ciliaevaluation.constraint.FullName.message}";
 
     Class<?>[] groups() default {};
 
@@ -35,6 +35,6 @@ public @interface BrazilFullName {
     @Retention(RUNTIME)
     @Documented
     @interface List {
-        BrazilFullName[] value();
+        FullName[] value();
     }
 }

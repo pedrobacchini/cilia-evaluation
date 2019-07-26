@@ -1,7 +1,7 @@
 package com.github.pedrobacchini.ciliaevaluation.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.github.pedrobacchini.ciliaevaluation.constraint.BrazilFullName;
+import com.github.pedrobacchini.ciliaevaluation.constraint.FullName;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,8 +26,8 @@ public class Client implements Serializable {
     private UUID uuid;
 
     @NotEmpty
+    @FullName
     @Size(max = 100)
-    @BrazilFullName
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -42,7 +42,7 @@ public class Client implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date birthdate;
 
-    public Client(@NotEmpty @Size(max = 100) @BrazilFullName String name, @Email @NotEmpty String email) {
+    public Client(@NotEmpty @Size(max = 100) @FullName String name, @Email @NotEmpty String email) {
         this.name = name;
         this.email = email;
     }

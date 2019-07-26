@@ -1,6 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.resource.exception;
 
-import com.github.pedrobacchini.ciliaevaluation.config.CustomMessageSource;
+import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
 import com.github.pedrobacchini.ciliaevaluation.service.exception.ObjectNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,10 @@ import javax.validation.constraints.NotNull;
 @ControllerAdvice
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final CustomMessageSource customMessageSource;
+    private final LocaleMessageSource localeMessageSource;
 
-    public ResourceExceptionHandler(CustomMessageSource customMessageSource) {
-        this.customMessageSource = customMessageSource;
+    public ResourceExceptionHandler(LocaleMessageSource localeMessageSource) {
+        this.localeMessageSource = localeMessageSource;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
-        String friendlyMessage = customMessageSource.getMessage("json-invalid-formatting");
+        String friendlyMessage = localeMessageSource.getMessage("json-invalid-formatting");
         String debugMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
         return super.handleExceptionInternal(ex, apiError, headers, HttpStatus.BAD_REQUEST, request);
@@ -37,7 +37,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     @NotNull
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String friendlyMessage = customMessageSource.getMessage("validation-error");
+        String friendlyMessage = localeMessageSource.getMessage("validation-error");
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage);
         apiError.addBindingResult(ex.getBindingResult());
         return handleExceptionInternal(ex, apiError, headers, HttpStatus.BAD_REQUEST, request);
@@ -45,7 +45,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class})
     protected ResponseEntity<Object> handleIllegalArgumentException(RuntimeException ex, WebRequest request) {
-        String friendlyMessage = customMessageSource.getMessage("illegal-argument");
+        String friendlyMessage = localeMessageSource.getMessage("illegal-argument");
         String debugMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
         return super.handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
@@ -53,7 +53,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ObjectNotFoundException.class})
     public ResponseEntity<Object> handleObjectNotFoundException(ObjectNotFoundException ex, WebRequest request) {
-        String friendlyMessage = customMessageSource.getMessage("resource-not-found");
+        String friendlyMessage = localeMessageSource.getMessage("resource-not-found");
         String debugMessage = ex.toString();
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, friendlyMessage, debugMessage);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
@@ -61,7 +61,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ObjectAlreadyExistException.class})
     public ResponseEntity<Object> handleObjectAlreadyExistException(ObjectAlreadyExistException ex, WebRequest request) {
-        String friendlyMessage = customMessageSource.getMessage("resource-already-exist");
+        String friendlyMessage = localeMessageSource.getMessage("resource-already-exist");
         String debugMessage = ex.toString();
         ApiError apiError = new ApiError(HttpStatus.CONFLICT, friendlyMessage, debugMessage);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);

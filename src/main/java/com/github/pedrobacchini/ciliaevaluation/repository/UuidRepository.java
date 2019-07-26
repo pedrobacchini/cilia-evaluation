@@ -6,5 +6,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.UUID;
 
 @NoRepositoryBean
-interface CustomRepository<T> extends JpaRepository<T, UUID> {
+interface UuidRepository<T> extends JpaRepository<T, UUID> {
 }

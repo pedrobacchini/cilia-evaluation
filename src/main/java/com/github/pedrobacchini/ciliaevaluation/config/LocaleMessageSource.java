@@ -9,13 +9,13 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @Component
-public class CustomMessageSource {
+public class LocaleMessageSource {
 
     //    private static final Locale DEFAULT_LOCALE = new Locale("pt", "BR");
     private static final Locale DEFAULT_LOCALE = Locale.US;
     private final MessageSource messageSource;
 
-    public CustomMessageSource(MessageSource messageSource) { this.messageSource = messageSource; }
+    public LocaleMessageSource(MessageSource messageSource) { this.messageSource = messageSource; }
 
     @Bean
     public LocaleResolver localeResolver() {

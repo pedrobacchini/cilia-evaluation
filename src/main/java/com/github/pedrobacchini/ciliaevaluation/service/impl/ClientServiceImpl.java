@@ -1,6 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.service.impl;
 
-import com.github.pedrobacchini.ciliaevaluation.config.CustomMessageSource;
+import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
 import com.github.pedrobacchini.ciliaevaluation.resource.exception.ObjectAlreadyExistException;
@@ -16,12 +16,12 @@ import java.util.UUID;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
-    private final CustomMessageSource customMessageSource;
+    private final LocaleMessageSource localeMessageSource;
 
     public ClientServiceImpl(ClientRepository clientRepository,
-                             CustomMessageSource customMessageSource) {
+                             LocaleMessageSource localeMessageSource) {
         this.clientRepository = clientRepository;
-        this.customMessageSource = customMessageSource;
+        this.localeMessageSource = localeMessageSource;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ClientServiceImpl implements ClientService {
     public Client getClientById(UUID uuid) {
         return clientRepository.findById(uuid)
                 .orElseThrow(() ->
-                        new ObjectNotFoundException(customMessageSource
+                        new ObjectNotFoundException(localeMessageSource
                                 .getMessage("object-not-found", uuid, Client.class.getName())));
     }
 
@@ -40,7 +40,7 @@ public class ClientServiceImpl implements ClientService {
     public Client createClient(Client client) {
         clientRepository.findByEmail(client.getEmail())
                 .orElseThrow(() ->
-                        new ObjectAlreadyExistException(customMessageSource
+                        new ObjectAlreadyExistException(localeMessageSource
                                 .getMessage("object-already-exist", client.getEmail(), Client.class.getName())));
         return clientRepository.save(client);
     }
