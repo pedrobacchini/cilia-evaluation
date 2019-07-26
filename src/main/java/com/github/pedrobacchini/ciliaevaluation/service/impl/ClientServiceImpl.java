@@ -1,12 +1,11 @@
 package com.github.pedrobacchini.ciliaevaluation.service.impl;
 
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
-import com.github.pedrobacchini.ciliaevaluation.dto.ClientRegister;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
-import com.github.pedrobacchini.ciliaevaluation.resource.exception.ObjectAlreadyExistException;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
 import com.github.pedrobacchini.ciliaevaluation.service.exception.ObjectNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,19 +37,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Client createClient(ClientRegister clientRegister) {
-        clientRepository.findByEmail(clientRegister.getEmail())
-                .ifPresent(found -> {
-                    throw new ObjectAlreadyExistException(localeMessageSource
-                            .getMessage("object-already-exist", found.getEmail(), Client.class.getName()));
-                });
-        Client client = fromDTO(clientRegister);
-        return clientRepository.save(client);
-    }
+    public Client createClient(Client client) { return clientRepository.save(client); }
 
-    private Client fromDTO(ClientRegister clientRegister) {
-        Client client = new Client(clientRegister.getName(), clientRegister.getEmail());
-        client.setBirthdate(clientRegister.getBirthdate());
-        return client;
+    @Override
+    public Client updateClient(UUID uuid, Client client) {
+        Client savedClient = getClientById(uuid);
+        BeanUtils.copyProperties(client, savedClient);
+        return clientRepository.save(savedClient);
     }
 }

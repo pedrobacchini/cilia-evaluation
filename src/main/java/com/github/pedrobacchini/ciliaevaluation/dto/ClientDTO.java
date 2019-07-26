@@ -1,9 +1,11 @@
 package com.github.pedrobacchini.ciliaevaluation.dto;
 
+import com.github.pedrobacchini.ciliaevaluation.constraint.ClientUniqueEmail;
 import com.github.pedrobacchini.ciliaevaluation.constraint.FullName;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -12,8 +14,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Getter
+@ToString
+@ClientUniqueEmail
 @NoArgsConstructor(access = AccessLevel.PRIVATE) //For Jackson
-public class ClientRegister implements Serializable {
+public class ClientDTO implements Serializable {
 
     private static final long serialVersionUID = 5871589647691942638L;
 
@@ -29,9 +33,9 @@ public class ClientRegister implements Serializable {
 
     private Date birthdate;
 
-    ClientRegister(@FullName @NotEmpty @Size(max = 100) String name,
-                   @Email @NotEmpty @Size(max = 100) String email,
-                   Date birthdate) {
+    ClientDTO(@FullName @NotEmpty @Size(max = 100) String name,
+              @Email @NotEmpty @Size(max = 100) String email,
+              Date birthdate) {
         this.name = name;
         this.email = email;
         this.birthdate = birthdate;

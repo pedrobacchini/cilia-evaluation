@@ -1,6 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.resource;
 
-import com.github.pedrobacchini.ciliaevaluation.dto.ClientRegister;
+import com.github.pedrobacchini.ciliaevaluation.dto.ClientDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
@@ -40,15 +40,21 @@ public class ClientResource {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Client> createClient(@RequestBody @Valid ClientRegister clientRegister, HttpServletResponse response) {
-        Client createdClient = clientService.createClient(clientRegister);
+    public ResponseEntity<Client> createClient(@RequestBody @Valid ClientDTO clientDTO, HttpServletResponse response) {
+        Client createdClient = clientService.createClient(fromDTO(clientDTO));
         publisher.publishEvent(new ResourceCreatedEvent(this, response, createdClient.getUuid()));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
     }
 
-//    @PutMapping("/{uuid}")
-//    public ResponseEntity<Client> updateClient(@PathVariable("uuid") String uuid, @RequestBody Client client) {
-//        return
-//        return userService.update(id, user);
-//    }
+    @PutMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Client> updateClient(@PathVariable("uuid") String uuid, @RequestBody @Valid ClientDTO clientDTO) {
+        Client client = clientService.updateClient(UUID.fromString(uuid), fromDTO(clientDTO));
+        return ResponseEntity.ok(client);
+    }
+
+    private Client fromDTO(ClientDTO clientDTO) {
+        Client client = new Client(clientDTO.getName(), clientDTO.getEmail());
+        client.setBirthdate(clientDTO.getBirthdate());
+        return client;
+    }
 }

@@ -41,4 +41,10 @@ public class Client implements Serializable {
         this.name = name;
         this.email = email;
     }
+
+    @SuppressWarnings("unused") // using for BeanUtils.copyProperties
+    public void setName(@FullName @NotEmpty @Size(max = 100) String name) { this.name = name; }
+
+    @SuppressWarnings("unused") // using for BeanUtils.copyProperties
+    public void setEmail(@Email @NotEmpty @Size(max = 100) String email) { this.email = email; }
 }

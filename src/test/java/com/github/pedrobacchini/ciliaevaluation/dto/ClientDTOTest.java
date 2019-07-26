@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ClientRegisterTest extends ValidationTest {
+public class ClientDTOTest extends ValidationTest {
 
     private static final String DEFAULT_NAME = ClientTest.DEFAULT_NAME;
     private static final Long DEFAULT_BIRTHDATE = ClientTest.DEFAULT_BIRTHDATE;
@@ -101,19 +101,19 @@ public class ClientRegisterTest extends ValidationTest {
             "Samuel Eto''o"
     };
 
-    private static ClientRegister createDefaultClientRegister() {
-        return new ClientRegister(DEFAULT_NAME, DEFAULT_EMAIL, new Date(DEFAULT_BIRTHDATE));
+    private static ClientDTO createDefaultClientDTO() {
+        return new ClientDTO(DEFAULT_NAME, DEFAULT_EMAIL, new Date(DEFAULT_BIRTHDATE));
     }
 
     @Test
     public void shouldHaveNoViolations() {
-        ClientRegister clientRegister = createDefaultClientRegister();
+        ClientDTO clientDTO = createDefaultClientDTO();
 
-        assertThat(DEFAULT_NAME).isEqualTo(clientRegister.getName());
-        assertThat(DEFAULT_EMAIL).isEqualTo(clientRegister.getEmail());
-        assertThat(DEFAULT_BIRTHDATE).isEqualTo(clientRegister.getBirthdate().getTime());
+        assertThat(DEFAULT_NAME).isEqualTo(clientDTO.getName());
+        assertThat(DEFAULT_EMAIL).isEqualTo(clientDTO.getEmail());
+        assertThat(DEFAULT_BIRTHDATE).isEqualTo(clientDTO.getBirthdate().getTime());
 
-        assertThat(validator.validate(clientRegister).isEmpty()).isTrue();
+        assertThat(validator.validate(clientDTO).isEmpty()).isTrue();
     }
 
     @Test
@@ -133,9 +133,9 @@ public class ClientRegisterTest extends ValidationTest {
     @Test
     public void shouldDetectValidPatternName() {
         for(String validName : VALID_NAMES) {
-            ClientRegister clientRegister = createDefaultClientRegister();
-            ReflectionTestUtils.setField(clientRegister, PROPERTY_NAME, validName);
-            Assert.assertTrue(validator.validate(clientRegister).isEmpty());
+            ClientDTO clientDTO = createDefaultClientDTO();
+            ReflectionTestUtils.setField(clientDTO, PROPERTY_NAME, validName);
+            Assert.assertTrue(validator.validate(clientDTO).isEmpty());
         }
     }
 
@@ -173,9 +173,9 @@ public class ClientRegisterTest extends ValidationTest {
 
     private <T> void shouldDetectConstraintIn(String property, Object value, List<T> constraintAnnotationTypeExpected) {
         try {
-            ClientRegister clientRegister = createDefaultClientRegister();
-            ReflectionTestUtils.setField(clientRegister, property, value);
-            TestUtil.buildConstraintViolationException(validator.validate(clientRegister));
+            ClientDTO clientDTO = createDefaultClientDTO();
+            ReflectionTestUtils.setField(clientDTO, property, value);
+            TestUtil.buildConstraintViolationException(validator.validate(clientDTO));
             TestUtil.failure();
         } catch(ConstraintViolationException e) {
             TestUtil.assertConstrainViolationEquals(e, constraintAnnotationTypeExpected, property);
