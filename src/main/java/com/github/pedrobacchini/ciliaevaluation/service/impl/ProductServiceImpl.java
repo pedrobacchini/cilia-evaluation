@@ -6,6 +6,7 @@ import com.github.pedrobacchini.ciliaevaluation.exception.ObjectNotFoundExceptio
 import com.github.pedrobacchini.ciliaevaluation.repository.ProductRepository;
 import com.github.pedrobacchini.ciliaevaluation.service.ProductService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +43,15 @@ final class ProductServiceImpl implements ProductService {
         Product savedProduct = getProductById(uuid);
         BeanUtils.copyProperties(product, savedProduct);
         return productRepository.save(savedProduct);
+    }
+
+    @Override
+    public void deleteProduct(UUID uuid) {
+        try {
+            productRepository.deleteById(uuid);
+        } catch(EmptyResultDataAccessException e) {
+            throw new ObjectNotFoundException(localeMessageSource
+                    .getMessage("object-not-found", uuid, Product.class.getName()));
+        }
     }
 }

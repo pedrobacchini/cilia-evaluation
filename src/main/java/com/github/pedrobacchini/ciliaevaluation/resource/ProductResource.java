@@ -50,6 +50,12 @@ public class ProductResource {
         return ResponseEntity.ok(product);
     }
 
+    @DeleteMapping(value = "/{uuid}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("uuid") String uuid) {
+        productService.deleteProduct(UUID.fromString(uuid));
+        return ResponseEntity.noContent().build();
+    }
+
     private Product fromDTO(ProductDTO productDTO) {
         Product product = new Product(productDTO.getName(), productDTO.getPrice());
         product.setDescription(productDTO.getDescription());
