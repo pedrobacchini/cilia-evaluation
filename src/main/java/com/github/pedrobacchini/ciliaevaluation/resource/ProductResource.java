@@ -44,6 +44,12 @@ public class ProductResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
+    @PutMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Product> updateProduct(@PathVariable("uuid") String uuid, @RequestBody @Valid ProductDTO productDTO) {
+        Product product = productService.updateProduct(UUID.fromString(uuid), fromDTO(productDTO));
+        return ResponseEntity.ok(product);
+    }
+
     private Product fromDTO(ProductDTO productDTO) {
         Product product = new Product(productDTO.getName(), productDTO.getPrice());
         product.setDescription(productDTO.getDescription());

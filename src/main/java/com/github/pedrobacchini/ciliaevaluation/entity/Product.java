@@ -44,4 +44,10 @@ public class Product implements Serializable {
         this.name = name;
         this.price = price;
     }
+
+    @SuppressWarnings("unused") // using for BeanUtils.copyProperties
+    public void setName(@NotNull @Size(min = 3, max = 100) String name) { this.name = name; }
+
+    @SuppressWarnings("unused") // using for BeanUtils.copyProperties
+    public void setPrice(@NotNull @Range(min = 1) Double price) { this.price = price; }
 }

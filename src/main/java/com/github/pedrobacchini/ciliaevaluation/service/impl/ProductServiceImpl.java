@@ -5,6 +5,7 @@ import com.github.pedrobacchini.ciliaevaluation.entity.Product;
 import com.github.pedrobacchini.ciliaevaluation.exception.ObjectNotFoundException;
 import com.github.pedrobacchini.ciliaevaluation.repository.ProductRepository;
 import com.github.pedrobacchini.ciliaevaluation.service.ProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,4 +36,11 @@ final class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) { return productRepository.save(product); }
+
+    @Override
+    public Product updateProduct(UUID uuid, Product product) {
+        Product savedProduct = getProductById(uuid);
+        BeanUtils.copyProperties(product, savedProduct);
+        return productRepository.save(savedProduct);
+    }
 }
