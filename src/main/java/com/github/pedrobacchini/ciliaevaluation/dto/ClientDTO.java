@@ -31,6 +31,7 @@ public class ClientDTO implements Serializable {
     @Size(max = 100)
     private String email;
 
+    @ToString.Exclude
     private Date birthdate;
 
     ClientDTO(@FullName @NotEmpty @Size(max = 100) String name,

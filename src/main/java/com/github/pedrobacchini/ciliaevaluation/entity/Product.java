@@ -35,6 +35,7 @@ public class Product implements Serializable {
     private Double price;
 
     @Setter
+    @ToString.Exclude
     @Column(length = 2000)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String description;

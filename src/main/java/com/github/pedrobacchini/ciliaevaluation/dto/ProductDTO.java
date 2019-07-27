@@ -25,6 +25,7 @@ public class ProductDTO implements Serializable {
     @Range(min = 1)
     private Double price;
 
+    @ToString.Exclude
     @Size(max = 2000)
     private String description;
 }
