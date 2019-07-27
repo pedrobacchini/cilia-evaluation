@@ -1,14 +1,17 @@
 package com.github.pedrobacchini.ciliaevaluation.resource;
 
+import com.github.pedrobacchini.ciliaevaluation.dto.ProductDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Product;
+import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
 import com.github.pedrobacchini.ciliaevaluation.service.ProductService;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,8 +20,13 @@ import java.util.UUID;
 public class ProductResource {
 
     private final ProductService productService;
+    private final ApplicationEventPublisher publisher;
 
-    public ProductResource(ProductService productService) { this.productService = productService; }
+    public ProductResource(ProductService productService,
+                           ApplicationEventPublisher publisher) {
+        this.productService = productService;
+        this.publisher = publisher;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Product> getAllProducts() { return productService.getAllProducts(); }
@@ -27,5 +35,18 @@ public class ProductResource {
     public ResponseEntity<Product> getProductById(@PathVariable("uuid") String uuid) {
         Product product = productService.getProductById(UUID.fromString(uuid));
         return ResponseEntity.ok(product);
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO productDTO, HttpServletResponse response) {
+        Product createdProduct = productService.createProduct(fromDTO(productDTO));
+        publisher.publishEvent(new ResourceCreatedEvent(this, response, createdProduct.getUuid()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+    }
+
+    private Product fromDTO(ProductDTO productDTO) {
+        Product product = new Product(productDTO.getName(), productDTO.getPrice());
+        product.setDescription(productDTO.getDescription());
+        return product;
     }
 }

@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.UUID;
@@ -28,22 +28,19 @@ public class Product implements Serializable {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID uuid;
 
-    @NotEmpty
-    @Size(max = 100)
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Range(min = 1)
     @Column(nullable = false)
     private Double price;
 
     @Setter
-    @Size(max = 2000)
     @Column(length = 2000)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String description;
 
-    public Product(@NotEmpty @Size(max = 100) String name, @NotEmpty @Range(min = 1) Double price) {
+    public Product(@NotNull @Size(min = 3, max = 100) String name,
+                   @NotNull @Range(min = 1) Double price) {
         this.name = name;
         this.price = price;
     }

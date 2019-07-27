@@ -32,4 +32,7 @@ final class ProductServiceImpl implements ProductService {
                         new ObjectNotFoundException(localeMessageSource
                                 .getMessage("object-not-found", uuid, Product.class.getName())));
     }
+
+    @Override
+    public Product createProduct(Product product) { return productRepository.save(product); }
 }
