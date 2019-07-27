@@ -1,7 +1,6 @@
-package com.github.pedrobacchini.ciliaevaluation.resource.exception;
+package com.github.pedrobacchini.ciliaevaluation.exception;
 
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
-import com.github.pedrobacchini.ciliaevaluation.service.exception.ObjectNotFoundException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;

@@ -3,8 +3,8 @@ package com.github.pedrobacchini.ciliaevaluation.constraint;
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
 import com.github.pedrobacchini.ciliaevaluation.dto.ClientDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
+import com.github.pedrobacchini.ciliaevaluation.exception.EmailAlreadyUsedException;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
-import com.github.pedrobacchini.ciliaevaluation.resource.exception.EmailAlreadyUsedException;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;

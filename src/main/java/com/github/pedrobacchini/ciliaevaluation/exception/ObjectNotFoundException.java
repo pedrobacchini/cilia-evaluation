@@ -1,4 +1,4 @@
-package com.github.pedrobacchini.ciliaevaluation.service.exception;
+package com.github.pedrobacchini.ciliaevaluation.exception;
 
 public class ObjectNotFoundException extends RuntimeException {
 

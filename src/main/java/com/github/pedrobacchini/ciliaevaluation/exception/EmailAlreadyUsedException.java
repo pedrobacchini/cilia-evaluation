@@ -1,4 +1,4 @@
-package com.github.pedrobacchini.ciliaevaluation.resource.exception;
+package com.github.pedrobacchini.ciliaevaluation.exception;
 
 public class EmailAlreadyUsedException extends RuntimeException {
 

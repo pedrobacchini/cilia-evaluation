@@ -1,4 +1,4 @@
-package com.github.pedrobacchini.ciliaevaluation.resource.exception;
+package com.github.pedrobacchini.ciliaevaluation.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
