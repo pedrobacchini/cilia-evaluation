@@ -6,6 +6,7 @@ import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
 import com.github.pedrobacchini.ciliaevaluation.service.exception.ObjectNotFoundException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,5 +45,15 @@ public class ClientServiceImpl implements ClientService {
         Client savedClient = getClientById(uuid);
         BeanUtils.copyProperties(client, savedClient);
         return clientRepository.save(savedClient);
+    }
+
+    @Override
+    public void deleteClient(UUID uuid) {
+        try {
+            clientRepository.deleteById(uuid);
+        } catch(EmptyResultDataAccessException e) {
+            throw new ObjectNotFoundException(localeMessageSource
+                    .getMessage("object-not-found", uuid, Client.class.getName()));
+        }
     }
 }

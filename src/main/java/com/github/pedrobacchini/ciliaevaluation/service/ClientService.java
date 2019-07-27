@@ -14,4 +14,6 @@ public interface ClientService {
     Client createClient(Client client);
 
     Client updateClient(UUID uuid, Client client);
+
+    void deleteClient(UUID uuid);
 }

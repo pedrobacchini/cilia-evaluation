@@ -52,6 +52,12 @@ public class ClientResource {
         return ResponseEntity.ok(client);
     }
 
+    @DeleteMapping(value = "/{uuid}")
+    public ResponseEntity<Void> deleteClient(@PathVariable("uuid") String uuid) {
+        clientService.deleteClient(UUID.fromString(uuid));
+        return ResponseEntity.noContent().build();
+    }
+
     private Client fromDTO(ClientDTO clientDTO) {
         Client client = new Client(clientDTO.getName(), clientDTO.getEmail());
         client.setBirthdate(clientDTO.getBirthdate());
