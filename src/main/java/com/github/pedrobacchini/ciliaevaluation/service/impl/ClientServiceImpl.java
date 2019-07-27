@@ -8,13 +8,12 @@ import com.github.pedrobacchini.ciliaevaluation.service.exception.ObjectNotFound
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ClientServiceImpl implements ClientService {
+final class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final LocaleMessageSource localeMessageSource;
@@ -37,7 +36,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional
     public Client createClient(Client client) { return clientRepository.save(client); }
 
     @Override
