@@ -30,7 +30,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status,
                                                                   WebRequest request) {
         String friendlyMessage = localeMessageSource.getMessage("json-invalid-formatting");
-        String debugMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
+        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
         return super.handleExceptionInternal(ex, apiError, headers, HttpStatus.BAD_REQUEST, request);
     }
@@ -41,7 +41,8 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
                                                                          HttpStatus status,
                                                                          WebRequest request) {
         String friendlyMessage = localeMessageSource.getMessage("unsupported-method", ex.getMethod());
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, ex.getMessage());
+        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
         return super.handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
@@ -65,32 +66,17 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
         ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
         String expectedType = builder.substring(0, builder.length() - 2);
         String friendlyMessage = localeMessageSource.getMessage("unsupported-media-type", ex.getContentType(), expectedType);
-        ApiError apiError = new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, friendlyMessage, ex.getMessage());
+        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
+        ApiError apiError = new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, friendlyMessage, debugMessage);
         return super.handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
     @ExceptionHandler({IllegalArgumentException.class})
     protected ResponseEntity<Object> handleIllegalArgumentException(RuntimeException ex, WebRequest request) {
         String friendlyMessage = localeMessageSource.getMessage("illegal-argument");
-        String debugMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
+        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
         return super.handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
-
-    @ExceptionHandler({ObjectNotFoundException.class})
-    public ResponseEntity<Object> handleObjectNotFoundException(ObjectNotFoundException ex, WebRequest request) {
-        String friendlyMessage = localeMessageSource.getMessage("resource-not-found");
-        String debugMessage = ex.toString();
-        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, friendlyMessage, debugMessage);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
-
-    @ExceptionHandler({EmailAlreadyUsedException.class})
-    public ResponseEntity<Object> handleObjectAlreadyExistException(EmailAlreadyUsedException ex, WebRequest request) {
-        String friendlyMessage = localeMessageSource.getMessage("email-already-used");
-        String debugMessage = ex.toString();
-        ApiError apiError = new ApiError(HttpStatus.CONFLICT, friendlyMessage, debugMessage);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class})
@@ -99,5 +85,17 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
         String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({ApiException.class})
+    public ResponseEntity<Object> handleApiException(ApiException ex, WebRequest request) {
+        String friendlyMessage = ObjectNotFoundException.class.isInstance(ex) ? localeMessageSource.getMessage("resource-not-found")
+                : EmailAlreadyUsedException.class.isInstance(ex) ? localeMessageSource.getMessage("email-already-used")
+                : ObjectIntegrityViolationException.class.isInstance(ex) ? localeMessageSource.getMessage("not-possible-delete-resource-has-order")
+                : localeMessageSource.getMessage("no-friendly-message");
+
+        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
+        ApiError apiError = new ApiError(ex.getStatus(), friendlyMessage, debugMessage);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), ex.getStatus(), request);
     }
 }

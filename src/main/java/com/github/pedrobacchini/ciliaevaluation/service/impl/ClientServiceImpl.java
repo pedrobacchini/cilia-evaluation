@@ -2,10 +2,12 @@ package com.github.pedrobacchini.ciliaevaluation.service.impl;
 
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
+import com.github.pedrobacchini.ciliaevaluation.exception.ObjectIntegrityViolationException;
 import com.github.pedrobacchini.ciliaevaluation.exception.ObjectNotFoundException;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,8 @@ final class ClientServiceImpl implements ClientService {
         } catch(EmptyResultDataAccessException e) {
             throw new ObjectNotFoundException(localeMessageSource
                     .getMessage("object-not-found", uuid, Client.class.getName()));
+        } catch(DataIntegrityViolationException e) {
+            throw new ObjectIntegrityViolationException(e.getMessage());
         }
     }
 }
