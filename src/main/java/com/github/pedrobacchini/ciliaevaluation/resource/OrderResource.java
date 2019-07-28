@@ -1,5 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.resource;
 
+import com.github.pedrobacchini.ciliaevaluation.dto.OrderDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Order;
 import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
 import com.github.pedrobacchini.ciliaevaluation.service.OrderService;
@@ -7,12 +8,15 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequestMapping("/order")
 public class OrderResource {
@@ -36,8 +40,8 @@ public class OrderResource {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Order> createOrder(@RequestBody Order order, HttpServletResponse response) {
-        Order createdOrder = orderService.createOrder(order);
+    public ResponseEntity<Order> createOrder(@RequestBody @Valid OrderDTO orderDTO, HttpServletResponse response) {
+        Order createdOrder = orderService.createOrder(orderDTO);
         publisher.publishEvent(new ResourceCreatedEvent(this, response, createdOrder.getUuid()));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }

@@ -1,6 +1,9 @@
 package com.github.pedrobacchini.ciliaevaluation.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,12 +22,10 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 8351242219803484217L;
 
     @Id
-    @Setter
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID uuid;
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "client_uuid")
     private Client client;

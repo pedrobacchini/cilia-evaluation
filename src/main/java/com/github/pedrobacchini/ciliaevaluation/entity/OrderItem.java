@@ -42,14 +42,7 @@ public class OrderItem implements Serializable {
     @JsonIgnore
     public Order getOrder() { return orderItemPK.getOrder(); }
 
-    public void setOrder(Order order) { orderItemPK.setOrder(order); }
-
     public Product getProduct() { return orderItemPK.getProduct(); }
-
-    public void setProduct(Product product) {
-        orderItemPK.setProduct(product);
-        this.price = product.getPrice();
-    }
 
     @Override
     public String toString() {

@@ -1,5 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.service;
 
+import com.github.pedrobacchini.ciliaevaluation.dto.OrderDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Order;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface OrderService {
 
     Order getOrderById(UUID uuid);
 
-    Order createOrder(Order order);
+    Order createOrder(OrderDTO order);
 }

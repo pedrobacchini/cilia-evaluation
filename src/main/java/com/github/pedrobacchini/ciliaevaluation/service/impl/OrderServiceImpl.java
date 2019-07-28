@@ -1,7 +1,9 @@
 package com.github.pedrobacchini.ciliaevaluation.service.impl;
 
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
+import com.github.pedrobacchini.ciliaevaluation.dto.OrderDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Order;
+import com.github.pedrobacchini.ciliaevaluation.entity.OrderItem;
 import com.github.pedrobacchini.ciliaevaluation.exception.ObjectNotFoundException;
 import com.github.pedrobacchini.ciliaevaluation.repository.OrderItemRepository;
 import com.github.pedrobacchini.ciliaevaluation.repository.OrderRepository;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 class OrderServiceImpl implements OrderService {
@@ -47,15 +50,16 @@ class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order createOrder(Order order) {
-        order.setUuid(null);
-        order.setClient(clientService.getClientById(order.getClient().getUuid()));
+    public Order createOrder(OrderDTO orderDTO) {
+        Order order = new Order(clientService.getClientById(orderDTO.getClient().getUuid()));
         order = orderRepository.save(order);
         final Order finalOrder = order;
-        order.getItens().forEach(orderItem -> {
-            orderItem.setProduct(productService.getProductById(orderItem.getProduct().getUuid()));
-            orderItem.setOrder(finalOrder);
-        });
+        List<OrderItem> orderItems = orderDTO.getItens().stream().map(
+                orderItemDTO -> new OrderItem(finalOrder,
+                        productService.getProductById(orderItemDTO.getProduct().getUuid()),
+                        orderItemDTO.getQuantity()))
+                .collect(Collectors.toList());
+        order.getItens().addAll(orderItems);
         orderItemRepository.saveAll(order.getItens());
         return order;
     }
