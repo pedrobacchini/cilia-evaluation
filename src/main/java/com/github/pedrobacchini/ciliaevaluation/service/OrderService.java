@@ -10,4 +10,6 @@ public interface OrderService {
     List<Order> getAllOrders();
 
     Order getOrderById(UUID uuid);
+
+    Order createOrder(Order order);
 }

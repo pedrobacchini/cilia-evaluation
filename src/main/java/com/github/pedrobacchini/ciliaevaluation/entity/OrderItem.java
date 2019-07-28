@@ -21,16 +21,17 @@ public class OrderItem implements Serializable {
 
     @JsonIgnore
     @EmbeddedId
-    private OrderItemPK orderItemPK;
+    private OrderItemPK orderItemPK = new OrderItemPK();
 
     @Getter
-    private Integer quantity;
+    private Integer quantity = 0;
 
     @Getter
-    private Double price;
+    private Double price = 0.0;
 
     public OrderItem(Order order, Product product, Integer quantity) {
-        this.orderItemPK = new OrderItemPK(order, product);
+        this.orderItemPK.setOrder(order);
+        this.orderItemPK.setProduct(product);
         this.quantity = quantity;
         this.price = product.getPrice();
     }
@@ -41,8 +42,14 @@ public class OrderItem implements Serializable {
     @JsonIgnore
     public Order getOrder() { return orderItemPK.getOrder(); }
 
-    @SuppressWarnings("WeakerAccess") //for Jackson
+    public void setOrder(Order order) { orderItemPK.setOrder(order); }
+
     public Product getProduct() { return orderItemPK.getProduct(); }
+
+    public void setProduct(Product product) {
+        orderItemPK.setProduct(product);
+        this.price = product.getPrice();
+    }
 
     @Override
     public String toString() {
