@@ -1,10 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: dev
   jackson:
     deserialization:
       fail-on-unknown-properties: true
-  jpa:
-    hibernate:
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

@@ -24,6 +24,7 @@ public class LocaleMessageSource {
         return slr;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public String getMessage(String code) { return messageSource.getMessage(code, null, DEFAULT_LOCALE); }
 
     public String getMessage(String code, Object... args) { return messageSource.getMessage(code, args, DEFAULT_LOCALE); }

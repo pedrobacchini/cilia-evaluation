@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -24,9 +25,11 @@ public class OrderItem implements Serializable {
     private OrderItemPK orderItemPK = new OrderItemPK();
 
     @Getter
+    @Column(nullable = false)
     private Integer quantity = 0;
 
     @Getter
+    @Column(nullable = false)
     private Double price = 0.0;
 
     public OrderItem(Order order, Product product, Integer quantity) {

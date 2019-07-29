@@ -1,0 +1,13 @@
+#docker run -d --name my_postgres -v my_dbdata:/var/lib/postgresql/data -p 54320:5432 postgres:11
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:54320/cilia-db
+    username: postgres
+    password:
+  jpa:
+      show-sql: true
+      properties:
+        hibernate:
+          jdbc:
+            lob:
+              non_contextual_creation: true
