@@ -1,3 +1,24 @@
-<p>
-  client-register works!
-</p>
+<div class="container">
+  <form #f="ngForm" autocomplete="off" (ngSubmit)="save(f)">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>Register Client</h1>
+      </div>
+
+      <div class="ui-g-12 ui-fluid">
+        <label>Name</label>
+        <input pInputText type="text" name="name" [(ngModel)]="client.name" #name="ngModel" required minlength="5">
+      </div>
+
+      <div class="ui-g-12 ui-fluid">
+        <label>Email</label>
+        <input pInputText type="text" name="email" [(ngModel)]="client.email" #email="ngModel" required>
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Save" [disabled]="f.invalid"></button>
+        <button pButton type="button" label="New" class="ui-button-info" (click)="new(f)"></button>
+      </div>
+    </div>
+  </form>
+</div>

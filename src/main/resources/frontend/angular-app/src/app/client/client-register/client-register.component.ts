@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import {NgForm} from '@angular/forms';
+
+class Client {
+  uuid: string;
+  name: string;
+  email: string;
+}
 
 @Component({
   selector: 'app-client-register',
@@ -7,9 +14,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientRegisterComponent implements OnInit {
 
+  client = new Client();
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  save(f: any) {
+
+  }
+
+  new(f: NgForm) {
+
+  }
 }

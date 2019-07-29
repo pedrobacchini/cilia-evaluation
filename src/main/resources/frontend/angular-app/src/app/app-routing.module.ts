@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {ClientSearchComponent} from './client/client-search/client-search.component';
+import {ClientRegisterComponent} from './client/client-register/client-register.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'client', pathMatch: 'full'},
-  {path: 'client', component: ClientSearchComponent},
+  {path: 'client', component: ClientRegisterComponent},
   {path: 'page-not-found', component: PageNotFoundComponent},
   {path: '**', redirectTo: 'page-not-found'}
 ];
