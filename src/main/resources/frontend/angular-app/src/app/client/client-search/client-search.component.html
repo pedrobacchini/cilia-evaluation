@@ -1,3 +1,36 @@
-<p>
-  client-search works!
-</p>
+<div class="container">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <h1>Clients</h1>
+
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <p-table #clientTable [value]="clients">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                <!--suppress HtmlFormInputWithoutLabel -->
+                <input type="text" pInputText size="50" placeholder="Filter clients..." (input)="clientTable.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Birthdate</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-client>
+              <tr>
+                <td>{{client.name}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.birthdate}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-client-register></app-client-register>
+</div>

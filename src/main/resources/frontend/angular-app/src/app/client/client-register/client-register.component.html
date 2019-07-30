@@ -5,19 +5,29 @@
         <h1>Register Client</h1>
       </div>
 
-      <div class="ui-g-12 ui-fluid">
-        <label>Name</label>
-        <input pInputText type="text" name="name" [(ngModel)]="client.name" #name="ngModel" required minlength="5">
+      <div class="ui-g-8 ui-g-nopad">
+        <div class="ui-g-12 ui-fluid">
+          <label>Name
+            <input pInputText type="text" name="name" [(ngModel)]="client.name" #name="ngModel" required minlength="5">
+          </label>
+        </div>
+
+        <div class="ui-g-6 ui-fluid">
+          <label>Email
+            <input pInputText type="text" name="email" [(ngModel)]="client.email" #email="ngModel" required>
+          </label>
+        </div>
+
+        <div class="ui-g-6 ui-fluid">
+          <label>Birthdate
+            <input pInputText type="text" name="birthdate" [(ngModel)]="client.birthdate" #birthdate="ngModel">
+          </label>
+        </div>
       </div>
 
-      <div class="ui-g-12 ui-fluid">
-        <label>Email</label>
-        <input pInputText type="text" name="email" [(ngModel)]="client.email" #email="ngModel" required>
-      </div>
-
-      <div class="ui-g-12">
+      <div class="ui-g-8">
         <button pButton type="submit" label="Save" [disabled]="f.invalid"></button>
-        <button pButton type="button" label="New" class="ui-button-info" (click)="new(f)"></button>
+        <button pButton type="button" label="New" (click)="new(f)"></button>
       </div>
     </div>
   </form>
