@@ -6,7 +6,8 @@ import {FormsModule} from '@angular/forms';
 import {InputTextModule} from 'primeng/components/inputtext/inputtext';
 import {ButtonModule} from 'primeng/components/button/button';
 import {TableModule} from 'primeng/table';
-import { DropdownModule } from 'primeng/components/dropdown/dropdown';
+import {DropdownModule} from 'primeng/components/dropdown/dropdown';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { DropdownModule } from 'primeng/components/dropdown/dropdown';
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
 
     InputTextModule,
     ButtonModule,

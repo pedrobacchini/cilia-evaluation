@@ -6,22 +6,24 @@ import {AppComponent} from './app.component';
 import {ClientModule} from './client/client.module';
 import {ProductModule} from './product/product.module';
 import {OrderModule} from './order/order.module';
-import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {GrowlModule} from 'primeng/growl';
+import {CoreModule} from './core/core.module';
+import {MessageService} from 'primeng/components/common/messageservice';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PageNotFoundComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    GrowlModule,
 
     ClientModule,
     ProductModule,
-    OrderModule
+    OrderModule,
+    CoreModule
   ],
-  providers: [],
+  exports: [GrowlModule],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

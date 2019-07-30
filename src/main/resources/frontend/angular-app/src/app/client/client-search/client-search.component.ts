@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ClientService} from '../client.service';
+import {ErrorHandlerService} from '../../core/error-handler.service';
 
 @Component({
   selector: 'app-client-search',
@@ -6,14 +8,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./client-search.component.css']
 })
 export class ClientSearchComponent implements OnInit {
-  clients;
 
-  constructor() { }
+  clients;
+  cols: any[];
+
+  constructor(
+    private clientService: ClientService,
+    private errorHandler: ErrorHandlerService
+  ) {
+    this.clientService.getAllClients()
+      .then(newClients => {
+        this.clients = newClients;
+        console.log('Successfully get all clients', newClients);
+      })
+      .catch(erro => this.errorHandler.handle(erro));
+  }
 
   ngOnInit() {
-    this.clients = [
-      { name: 'Pedro Bacchini', email: 'pedrobacchini@outlook.com', birthdate: null },
-      { name: 'Maria Silva', email: 'mariasilva@gamil.com', birthdate: '13/05/1990' }
+    this.cols = [
+      {field: 'name', header: 'Name'},
+      {field: 'email', header: 'Email'},
+      {field: 'birthdate', header: 'Birthdate'}
     ];
   }
 
