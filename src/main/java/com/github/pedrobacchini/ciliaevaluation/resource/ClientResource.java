@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Validated
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/api/clients")
 public class ClientResource {
 
     private final ClientService clientService;

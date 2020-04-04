@@ -11,7 +11,7 @@ export class ClientService {
   clientUrl: string;
 
   constructor(private http: HttpClient) {
-    this.clientUrl = `${environment.apiUrl}/client`;
+    this.clientUrl = `${environment.apiUrl}/clients`;
   }
 
   addClient(client: Client): Promise<Client> {
