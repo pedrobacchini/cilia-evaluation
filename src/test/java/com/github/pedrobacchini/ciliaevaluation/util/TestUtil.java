@@ -16,9 +16,9 @@ public class TestUtil {
     public static void failure() { fail("failure the " + Thread.currentThread().getStackTrace()[3].getMethodName()); }
 
     public static <T> void buildConstraintViolationException(Set<ConstraintViolation<T>> violations) {
-        if(!violations.isEmpty()) {
+        if (!violations.isEmpty()) {
             StringBuilder messages = new StringBuilder();
-            for(ConstraintViolation<?> violation : violations) {
+            for (ConstraintViolation<?> violation : violations) {
                 messages.append(violation.getPropertyPath().toString()).append(" ");
                 messages.append(violation.getMessage()).append("\n");
             }

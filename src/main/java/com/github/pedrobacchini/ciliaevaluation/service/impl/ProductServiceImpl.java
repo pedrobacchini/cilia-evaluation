@@ -47,10 +47,10 @@ final class ProductServiceImpl implements ProductService {
     public void deleteProduct(UUID uuid) {
         try {
             productRepository.deleteById(uuid);
-        } catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ObjectNotFoundException(localeMessageSource
                     .getMessage("object-not-found", uuid, Product.class.getName()));
-        } catch(DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new ObjectIntegrityViolationException(e.getMessage());
         }
     }

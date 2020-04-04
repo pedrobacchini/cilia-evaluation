@@ -72,7 +72,7 @@ class ApiError {
     }
 
     private void addSubError(ApiSubError subError) {
-        if(subErrors == null) {
+        if (subErrors == null) {
             subErrors = new ArrayList<>();
         }
         subErrors.add(subError);

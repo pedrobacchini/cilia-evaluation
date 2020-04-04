@@ -52,7 +52,7 @@ public class Product implements Serializable {
     @JsonIgnore
     public List<Order> getOrders() {
         List<Order> listOrders = new ArrayList<>();
-        for(OrderItem orderItem : itens) {
+        for (OrderItem orderItem : itens) {
             listOrders.add(orderItem.getOrder());
         }
         return listOrders;

@@ -29,10 +29,10 @@ public class ClientUniqueEmailValidator implements ConstraintValidator<ClientUni
         Optional<Client> clientOptional = clientRepository.findByEmail(clientDTO.getEmail());
 
 //        Updated Client
-        if(pathVariables.containsKey("uuid")) {
+        if (pathVariables.containsKey("uuid")) {
             UUID uriUuid = UUID.fromString((String) pathVariables.get("uuid"));
             clientOptional.ifPresent(client -> {
-                if(!client.getUuid().equals(uriUuid))
+                if (!client.getUuid().equals(uriUuid))
                     throw new EmailAlreadyUsedException(localeMessageSource
                             .getMessage("object-already-used-email", clientDTO.getEmail()));
             });

@@ -47,10 +47,10 @@ final class ClientServiceImpl implements ClientService {
     public void deleteClient(UUID uuid) {
         try {
             clientRepository.deleteById(uuid);
-        } catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ObjectNotFoundException(localeMessageSource
                     .getMessage("object-not-found", uuid, Client.class.getName()));
-        } catch(DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new ObjectIntegrityViolationException(e.getMessage());
         }
     }

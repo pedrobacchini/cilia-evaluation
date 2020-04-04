@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ClientService} from '../client.service';
-import {ErrorHandlerService} from '../../core/error-handler.service';
+import { Component, OnInit } from '@angular/core';
+import { ClientService } from '../client.service';
+import { ErrorHandlerService } from '../../core/error-handler.service';
 
 @Component({
   selector: 'app-client-search',
