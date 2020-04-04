@@ -4,6 +4,7 @@ import com.github.pedrobacchini.ciliaevaluation.dto.OrderDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Order;
 import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
 import com.github.pedrobacchini.ciliaevaluation.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,17 +19,12 @@ import java.util.UUID;
 
 @Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/orders")
 public class OrderResource {
 
     private final OrderService orderService;
     private final ApplicationEventPublisher publisher;
-
-    public OrderResource(OrderService orderService,
-                         ApplicationEventPublisher publisher) {
-        this.orderService = orderService;
-        this.publisher = publisher;
-    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Order> getAllOrders() { return orderService.getAllOrders(); }

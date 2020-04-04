@@ -19,8 +19,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @ToString
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"uuid"})
-@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 public class Client implements Serializable {
 
     private static final long serialVersionUID = -6701152753907592400L;

@@ -15,8 +15,8 @@ import java.util.*;
 @Getter
 @Entity
 @ToString
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"uuid"})
-@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 public class Product implements Serializable {
 
     private static final long serialVersionUID = -4368619256242850842L;
@@ -41,7 +41,7 @@ public class Product implements Serializable {
     @JsonIgnore
     @ToString.Exclude
     @OneToMany(mappedBy = "orderItemPK.product")
-    private Set<OrderItem> itens = new HashSet<>();
+    private final Set<OrderItem> itens = new HashSet<>();
 
     public Product(@NotNull @Size(min = 3, max = 100) String name,
                    @NotNull @Range(min = 1) Double price) {

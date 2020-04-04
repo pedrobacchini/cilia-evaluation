@@ -1,6 +1,7 @@
 package com.github.pedrobacchini.ciliaevaluation.exception;
 
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -16,13 +17,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
+@RequiredArgsConstructor
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final LocaleMessageSource localeMessageSource;
-
-    public ResourceExceptionHandler(LocaleMessageSource localeMessageSource) {
-        this.localeMessageSource = localeMessageSource;
-    }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
@@ -89,9 +87,9 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ApiException.class})
     public ResponseEntity<Object> handleApiException(ApiException ex, WebRequest request) {
-        String friendlyMessage = ObjectNotFoundException.class.isInstance(ex) ? localeMessageSource.getMessage("resource-not-found")
-                : EmailAlreadyUsedException.class.isInstance(ex) ? localeMessageSource.getMessage("email-already-used")
-                : ObjectIntegrityViolationException.class.isInstance(ex) ? localeMessageSource.getMessage("not-possible-delete-resource-has-order")
+        String friendlyMessage = ex instanceof ObjectNotFoundException ? localeMessageSource.getMessage("resource-not-found")
+                : ex instanceof EmailAlreadyUsedException ? localeMessageSource.getMessage("email-already-used")
+                : ex instanceof ObjectIntegrityViolationException ? localeMessageSource.getMessage("not-possible-delete-resource-has-order")
                 : localeMessageSource.getMessage("no-friendly-message");
 
         String debugMessage = ExceptionUtils.getRootCauseMessage(ex);

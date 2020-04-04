@@ -22,7 +22,7 @@ class ApiError {
 
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDateTime timestamp;
+    private final LocalDateTime timestamp;
     private String friendlyMessage;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String debugMessage;
@@ -83,10 +83,10 @@ class ApiError {
     }
 
     @Getter
-    @EqualsAndHashCode(callSuper = false)
+    @EqualsAndHashCode(callSuper = true)
     @AllArgsConstructor
     @ToString
-    private class ApiValidationError extends ApiSubError {
+    private static class ApiValidationError extends ApiSubError {
         private String object;
         private String field;
         private Object rejectedValue;

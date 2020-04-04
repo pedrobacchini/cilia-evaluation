@@ -4,6 +4,7 @@ import com.github.pedrobacchini.ciliaevaluation.dto.ProductDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Product;
 import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
 import com.github.pedrobacchini.ciliaevaluation.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,17 +17,12 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/products")
 public class ProductResource {
 
     private final ProductService productService;
     private final ApplicationEventPublisher publisher;
-
-    public ProductResource(ProductService productService,
-                           ApplicationEventPublisher publisher) {
-        this.productService = productService;
-        this.publisher = publisher;
-    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Product> getAllProducts() { return productService.getAllProducts(); }

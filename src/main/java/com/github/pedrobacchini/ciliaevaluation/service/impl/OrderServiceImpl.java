@@ -10,6 +10,7 @@ import com.github.pedrobacchini.ciliaevaluation.repository.OrderRepository;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
 import com.github.pedrobacchini.ciliaevaluation.service.OrderService;
 import com.github.pedrobacchini.ciliaevaluation.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -25,18 +27,6 @@ class OrderServiceImpl implements OrderService {
     private final ClientService clientService;
     private final ProductService productService;
     private final LocaleMessageSource localeMessageSource;
-
-    OrderServiceImpl(OrderRepository orderRepository,
-                     OrderItemRepository orderItemRepository,
-                     ClientService clientService,
-                     ProductService productService,
-                     LocaleMessageSource localeMessageSource) {
-        this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
-        this.clientService = clientService;
-        this.productService = productService;
-        this.localeMessageSource = localeMessageSource;
-    }
 
     @Override
     public List<Order> getAllOrders() { return orderRepository.findAll(); }

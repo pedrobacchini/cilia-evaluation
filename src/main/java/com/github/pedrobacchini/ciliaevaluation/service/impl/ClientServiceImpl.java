@@ -6,6 +6,7 @@ import com.github.pedrobacchini.ciliaevaluation.exception.ObjectIntegrityViolati
 import com.github.pedrobacchini.ciliaevaluation.exception.ObjectNotFoundException;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,16 +16,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 final class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final LocaleMessageSource localeMessageSource;
-
-    public ClientServiceImpl(ClientRepository clientRepository,
-                             LocaleMessageSource localeMessageSource) {
-        this.clientRepository = clientRepository;
-        this.localeMessageSource = localeMessageSource;
-    }
 
     @Override
     public List<Client> getAllClients() { return clientRepository.findAll(); }

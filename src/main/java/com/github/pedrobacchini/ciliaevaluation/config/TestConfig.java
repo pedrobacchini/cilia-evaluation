@@ -8,6 +8,7 @@ import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
 import com.github.pedrobacchini.ciliaevaluation.repository.OrderItemRepository;
 import com.github.pedrobacchini.ciliaevaluation.repository.OrderRepository;
 import com.github.pedrobacchini.ciliaevaluation.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -19,22 +20,13 @@ import java.util.List;
 
 @Configuration
 @Profile("test")
+@RequiredArgsConstructor
 public class TestConfig {
 
     private final OrderRepository orderRepository;
     private final ClientRepository clientRepository;
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
-
-    public TestConfig(OrderRepository orderRepository,
-                      ClientRepository clientRepository,
-                      ProductRepository productRepository,
-                      OrderItemRepository orderItemRepository) {
-        this.orderRepository = orderRepository;
-        this.clientRepository = clientRepository;
-        this.productRepository = productRepository;
-        this.orderItemRepository = orderItemRepository;
-    }
 
     @Bean
     public boolean instantiateDatabase() throws ParseException {

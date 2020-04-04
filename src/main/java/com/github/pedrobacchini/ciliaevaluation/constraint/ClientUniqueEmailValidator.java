@@ -5,6 +5,7 @@ import com.github.pedrobacchini.ciliaevaluation.dto.ClientDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.exception.EmailAlreadyUsedException;
 import com.github.pedrobacchini.ciliaevaluation.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,25 +15,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class ClientUniqueEmailValidator implements ConstraintValidator<ClientUniqueEmail, ClientDTO> {
 
     private final HttpServletRequest request;
     private final ClientRepository clientRepository;
     private final LocaleMessageSource localeMessageSource;
 
-    public ClientUniqueEmailValidator(HttpServletRequest request,
-                                      ClientRepository clientRepository,
-                                      LocaleMessageSource localeMessageSource) {
-        this.request = request;
-        this.clientRepository = clientRepository;
-        this.localeMessageSource = localeMessageSource;
-    }
-
-    @Override
-    public void initialize(ClientUniqueEmail constraintAnnotation) {
-
-    }
-
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean isValid(ClientDTO clientDTO, ConstraintValidatorContext context) {
         Map pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);

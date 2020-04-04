@@ -26,6 +26,7 @@ public class TestUtil {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     public static <T> void assertConstrainViolationEquals(ConstraintViolationException e, List<T> constraintAnnotationTypeExpected, String property) {
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
         List<?> constraintAnnotationType = constraintViolations.stream()

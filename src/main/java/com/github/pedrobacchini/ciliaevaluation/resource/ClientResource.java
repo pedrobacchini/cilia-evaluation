@@ -4,6 +4,7 @@ import com.github.pedrobacchini.ciliaevaluation.dto.ClientDTO;
 import com.github.pedrobacchini.ciliaevaluation.entity.Client;
 import com.github.pedrobacchini.ciliaevaluation.event.ResourceCreatedEvent;
 import com.github.pedrobacchini.ciliaevaluation.service.ClientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,17 +19,12 @@ import java.util.UUID;
 
 @Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/clients")
 public class ClientResource {
 
     private final ClientService clientService;
     private final ApplicationEventPublisher publisher;
-
-    public ClientResource(ClientService clientService,
-                          ApplicationEventPublisher publisher) {
-        this.clientService = clientService;
-        this.publisher = publisher;
-    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Client> getAllClients() { return clientService.getAllClients(); }
