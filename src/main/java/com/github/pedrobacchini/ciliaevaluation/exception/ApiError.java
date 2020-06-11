@@ -18,7 +18,7 @@ import java.util.List;
 
 @Getter
 @ToString
-class ApiError {
+public class ApiError {
 
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
@@ -31,20 +31,20 @@ class ApiError {
 
     private ApiError() { this.timestamp = LocalDateTime.now(); }
 
-    ApiError(HttpStatus status, String friendlyMessage) {
+    public ApiError(HttpStatus status, String friendlyMessage) {
         this();
         this.status = status;
         this.friendlyMessage = friendlyMessage;
     }
 
-    ApiError(HttpStatus status, String friendlyMessage, String debugMessage) {
+    public ApiError(HttpStatus status, String friendlyMessage, String debugMessage) {
         this();
         this.status = status;
         this.friendlyMessage = friendlyMessage;
         this.debugMessage = debugMessage;
     }
 
-    void addBindingResult(BindingResult bindingResult) {
+    public void addBindingResult(BindingResult bindingResult) {
         bindingResult.getGlobalErrors().forEach(this::addValidationError);
         bindingResult.getFieldErrors().forEach(this::addValidationError);
     }

@@ -9,5 +9,6 @@ public class ObjectNotFoundException extends ApiException {
     public ObjectNotFoundException(String message) {
         super(message);
         this.status = HttpStatus.NOT_FOUND;
+        this.friendlyMessageCode = "resource-not-found";
     }
 }

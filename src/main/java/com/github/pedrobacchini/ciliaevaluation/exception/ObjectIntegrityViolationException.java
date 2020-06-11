@@ -9,5 +9,6 @@ public class ObjectIntegrityViolationException extends ApiException {
     public ObjectIntegrityViolationException(String message) {
         super(message);
         this.status = HttpStatus.BAD_REQUEST;
+        this.friendlyMessageCode = "not-possible-delete-resource-has-order";
     }
 }
