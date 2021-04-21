@@ -26,7 +26,7 @@ public class ClientResource {
     private final ClientService clientService;
     private final ApplicationEventPublisher publisher;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Client> getAllClients() { return clientService.getAllClients(); }
 
     @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)

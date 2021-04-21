@@ -26,7 +26,7 @@ public class OrderResource {
     private final OrderService orderService;
     private final ApplicationEventPublisher publisher;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Order> getAllOrders() { return orderService.getAllOrders(); }
 
     @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)

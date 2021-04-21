@@ -24,7 +24,7 @@ public class ProductResource {
     private final ProductService productService;
     private final ApplicationEventPublisher publisher;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> getAllProducts() { return productService.getAllProducts(); }
 
     @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
