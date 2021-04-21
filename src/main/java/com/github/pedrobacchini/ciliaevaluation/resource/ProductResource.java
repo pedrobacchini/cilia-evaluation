@@ -28,23 +28,23 @@ public class ProductResource {
         this.publisher = publisher;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> getAllProducts() { return productService.getAllProducts(); }
 
-    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> getProductById(@PathVariable("uuid") String uuid) {
         Product product = productService.getProductById(UUID.fromString(uuid));
         return ResponseEntity.ok(product);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO productDTO, HttpServletResponse response) {
         Product createdProduct = productService.createProduct(fromDTO(productDTO));
         publisher.publishEvent(new ResourceCreatedEvent(this, response, createdProduct.getUuid()));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
-    @PutMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> updateProduct(@PathVariable("uuid") String uuid, @RequestBody @Valid ProductDTO productDTO) {
         Product product = productService.updateProduct(UUID.fromString(uuid), fromDTO(productDTO));
         return ResponseEntity.ok(product);

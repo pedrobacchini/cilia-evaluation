@@ -1,0 +1,8 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:9.5.19
+    ports:
+      - "54320:5432"
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql

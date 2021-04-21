@@ -30,23 +30,23 @@ public class ClientResource {
         this.publisher = publisher;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Client> getAllClients() { return clientService.getAllClients(); }
 
-    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> getClientById(@PathVariable("uuid") String uuid) {
         Client client = clientService.getClientById(UUID.fromString(uuid));
         return ResponseEntity.ok(client);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> createClient(@RequestBody @Valid ClientDTO clientDTO, HttpServletResponse response) {
         Client createdClient = clientService.createClient(fromDTO(clientDTO));
         publisher.publishEvent(new ResourceCreatedEvent(this, response, createdClient.getUuid()));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
     }
 
-    @PutMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> updateClient(@PathVariable("uuid") String uuid, @RequestBody @Valid ClientDTO clientDTO) {
         Client client = clientService.updateClient(UUID.fromString(uuid), fromDTO(clientDTO));
         return ResponseEntity.ok(client);

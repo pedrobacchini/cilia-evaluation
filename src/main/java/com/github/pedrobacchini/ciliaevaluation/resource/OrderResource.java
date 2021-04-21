@@ -30,16 +30,16 @@ public class OrderResource {
         this.publisher = publisher;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Order> getAllOrders() { return orderService.getAllOrders(); }
 
-    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> getOrderById(@PathVariable("uuid") String uuid) {
         Order order = orderService.getOrderById(UUID.fromString(uuid));
         return ResponseEntity.ok(order);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> createOrder(@RequestBody @Valid OrderDTO orderDTO, HttpServletResponse response) {
         Order createdOrder = orderService.createOrder(orderDTO);
         publisher.publishEvent(new ResourceCreatedEvent(this, response, createdOrder.getUuid()));
