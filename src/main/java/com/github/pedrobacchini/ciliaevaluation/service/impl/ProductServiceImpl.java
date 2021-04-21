@@ -6,6 +6,7 @@ import com.github.pedrobacchini.ciliaevaluation.exception.ObjectIntegrityViolati
 import com.github.pedrobacchini.ciliaevaluation.exception.ObjectNotFoundException;
 import com.github.pedrobacchini.ciliaevaluation.repository.ProductRepository;
 import com.github.pedrobacchini.ciliaevaluation.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,16 +16,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 final class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final LocaleMessageSource localeMessageSource;
-
-    public ProductServiceImpl(ProductRepository productRepository,
-                              LocaleMessageSource localeMessageSource) {
-        this.productRepository = productRepository;
-        this.localeMessageSource = localeMessageSource;
-    }
 
     @Override
     public List<Product> getAllProducts() { return productRepository.findAll(); }
@@ -51,10 +47,10 @@ final class ProductServiceImpl implements ProductService {
     public void deleteProduct(UUID uuid) {
         try {
             productRepository.deleteById(uuid);
-        } catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ObjectNotFoundException(localeMessageSource
                     .getMessage("object-not-found", uuid, Product.class.getName()));
-        } catch(DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new ObjectIntegrityViolationException(e.getMessage());
         }
     }

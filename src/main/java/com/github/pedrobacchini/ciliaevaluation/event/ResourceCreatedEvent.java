@@ -9,8 +9,8 @@ import java.util.UUID;
 @Getter
 public class ResourceCreatedEvent extends ApplicationEvent {
 
-    private HttpServletResponse response;
-    private UUID uuid;
+    private final HttpServletResponse response;
+    private final UUID uuid;
 
     public ResourceCreatedEvent(Object source, HttpServletResponse response, UUID uuid) {
         super(source);

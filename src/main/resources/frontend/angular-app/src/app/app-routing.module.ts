@@ -1,7 +1,7 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {PageNotFoundComponent} from './core/page-not-found/page-not-found.component';
-import {ClientSearchComponent} from './client/client-search/client-search.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
+import { ClientSearchComponent } from './client/client-search/client-search.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'client', pathMatch: 'full'},

@@ -1,7 +1,6 @@
 package com.github.pedrobacchini.ciliaevaluation.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,16 +12,16 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "ORDER_ITEM")
 @EqualsAndHashCode(of = "orderItemPK")
-@NoArgsConstructor(access = AccessLevel.PRIVATE) //For Hibernate
 public class OrderItem implements Serializable {
 
     private static final long serialVersionUID = 8146792575900360772L;
 
     @JsonIgnore
     @EmbeddedId
-    private OrderItemPK orderItemPK = new OrderItemPK();
+    private final OrderItemPK orderItemPK = new OrderItemPK();
 
     @Getter
     @Column(nullable = false)

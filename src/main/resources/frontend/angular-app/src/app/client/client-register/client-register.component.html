@@ -1,5 +1,5 @@
 <div class="container">
-  <form #f="ngForm" autocomplete="off" (ngSubmit)="save(f)">
+  <form #f="ngForm" (ngSubmit)="save(f)" autocomplete="off">
     <div class="ui-g">
       <div class="ui-g-12">
         <h1>Register Client</h1>
@@ -8,26 +8,26 @@
       <div class="ui-g-8 ui-g-nopad">
         <div class="ui-g-12 ui-fluid">
           <label>Name
-            <input pInputText type="text" name="name" [(ngModel)]="client.name" #name="ngModel" required minlength="5">
+            <input #name="ngModel" [(ngModel)]="client.name" minlength="5" name="name" pInputText required type="text">
           </label>
         </div>
 
         <div class="ui-g-6 ui-fluid">
           <label>Email
-            <input pInputText type="text" name="email" [(ngModel)]="client.email" #email="ngModel" required>
+            <input #email="ngModel" [(ngModel)]="client.email" name="email" pInputText required type="text">
           </label>
         </div>
 
         <div class="ui-g-6 ui-fluid">
           <label>Birthdate
-            <input pInputText type="text" name="birthdate" [(ngModel)]="client.birthdate" #birthdate="ngModel">
+            <input #birthdate="ngModel" [(ngModel)]="client.birthdate" name="birthdate" pInputText type="text">
           </label>
         </div>
       </div>
 
       <div class="ui-g-8">
-        <button pButton type="submit" label="Save" [disabled]="f.invalid"></button>
-        <button pButton type="button" label="New" (click)="new(f)"></button>
+        <button [disabled]="f.invalid" label="Save" pButton type="submit"></button>
+        <button (click)="new(f)" label="New" pButton type="button"></button>
       </div>
     </div>
   </form>

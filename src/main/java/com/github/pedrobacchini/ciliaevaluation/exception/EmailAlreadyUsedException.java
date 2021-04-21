@@ -9,5 +9,6 @@ public class EmailAlreadyUsedException extends ApiException {
     public EmailAlreadyUsedException(String message) {
         super(message);
         this.status = HttpStatus.CONFLICT;
+        this.friendlyMessageCode = "email-already-used";
     }
 }

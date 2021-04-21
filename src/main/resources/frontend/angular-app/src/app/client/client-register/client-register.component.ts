@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {Client} from '../client.class';
-import {ClientService} from '../client.service';
-import {MessageService} from 'primeng/api';
-import {ErrorHandlerService} from '../../core/error-handler.service';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Client } from '../client.class';
+import { ClientService } from '../client.service';
+import { MessageService } from 'primeng/api';
+import { ErrorHandlerService } from '../../core/error-handler.service';
 
 @Component({
   selector: 'app-client-register',

@@ -18,11 +18,11 @@ import java.util.List;
 
 @Getter
 @ToString
-class ApiError {
+public class ApiError {
 
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDateTime timestamp;
+    private final LocalDateTime timestamp;
     private String friendlyMessage;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String debugMessage;
@@ -31,20 +31,20 @@ class ApiError {
 
     private ApiError() { this.timestamp = LocalDateTime.now(); }
 
-    ApiError(HttpStatus status, String friendlyMessage) {
+    public ApiError(HttpStatus status, String friendlyMessage) {
         this();
         this.status = status;
         this.friendlyMessage = friendlyMessage;
     }
 
-    ApiError(HttpStatus status, String friendlyMessage, String debugMessage) {
+    public ApiError(HttpStatus status, String friendlyMessage, String debugMessage) {
         this();
         this.status = status;
         this.friendlyMessage = friendlyMessage;
         this.debugMessage = debugMessage;
     }
 
-    void addBindingResult(BindingResult bindingResult) {
+    public void addBindingResult(BindingResult bindingResult) {
         bindingResult.getGlobalErrors().forEach(this::addValidationError);
         bindingResult.getFieldErrors().forEach(this::addValidationError);
     }
@@ -72,7 +72,7 @@ class ApiError {
     }
 
     private void addSubError(ApiSubError subError) {
-        if(subErrors == null) {
+        if (subErrors == null) {
             subErrors = new ArrayList<>();
         }
         subErrors.add(subError);
@@ -83,10 +83,10 @@ class ApiError {
     }
 
     @Getter
-    @EqualsAndHashCode(callSuper = false)
+    @EqualsAndHashCode(callSuper = true)
     @AllArgsConstructor
     @ToString
-    private class ApiValidationError extends ApiSubError {
+    private static class ApiValidationError extends ApiSubError {
         private String object;
         private String field;
         private Object rejectedValue;

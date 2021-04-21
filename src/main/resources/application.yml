@@ -1,9 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: test
   jackson:
     deserialization:
       fail-on-unknown-properties: true
-#server:
-#  servlet:
-#    context-path: /api

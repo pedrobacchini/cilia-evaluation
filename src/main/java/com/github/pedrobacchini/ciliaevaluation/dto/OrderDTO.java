@@ -20,5 +20,5 @@ public class OrderDTO implements Serializable {
 
     @Valid
     @NotEmpty(message = "{com.github.pedrobacchini.ciliaevaluation.dto.OrderDTO.NotEmpty.message}")
-    private Set<OrderItemDTO> itens = new HashSet<>();
+    private final Set<OrderItemDTO> itens = new HashSet<>();
 }

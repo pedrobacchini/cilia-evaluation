@@ -1,8 +1,9 @@
-package com.github.pedrobacchini.ciliaevaluation.exception;
+package com.github.pedrobacchini.ciliaevaluation.advice;
 
 import com.github.pedrobacchini.ciliaevaluation.config.LocaleMessageSource;
+import com.github.pedrobacchini.ciliaevaluation.exception.ApiError;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,18 +12,14 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
+@RequiredArgsConstructor
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final LocaleMessageSource localeMessageSource;
-
-    public ResourceExceptionHandler(LocaleMessageSource localeMessageSource) {
-        this.localeMessageSource = localeMessageSource;
-    }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
@@ -69,33 +66,5 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
         String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
         ApiError apiError = new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, friendlyMessage, debugMessage);
         return super.handleExceptionInternal(ex, apiError, headers, status, request);
-    }
-
-    @ExceptionHandler({IllegalArgumentException.class})
-    protected ResponseEntity<Object> handleIllegalArgumentException(RuntimeException ex, WebRequest request) {
-        String friendlyMessage = localeMessageSource.getMessage("illegal-argument");
-        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
-        return super.handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
-
-    @ExceptionHandler({DataIntegrityViolationException.class})
-    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
-        String friendlyMessage = localeMessageSource.getMessage("operation-not-allowed");
-        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, friendlyMessage, debugMessage);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
-
-    @ExceptionHandler({ApiException.class})
-    public ResponseEntity<Object> handleApiException(ApiException ex, WebRequest request) {
-        String friendlyMessage = ObjectNotFoundException.class.isInstance(ex) ? localeMessageSource.getMessage("resource-not-found")
-                : EmailAlreadyUsedException.class.isInstance(ex) ? localeMessageSource.getMessage("email-already-used")
-                : ObjectIntegrityViolationException.class.isInstance(ex) ? localeMessageSource.getMessage("not-possible-delete-resource-has-order")
-                : localeMessageSource.getMessage("no-friendly-message");
-
-        String debugMessage = ExceptionUtils.getRootCauseMessage(ex);
-        ApiError apiError = new ApiError(ex.getStatus(), friendlyMessage, debugMessage);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), ex.getStatus(), request);
     }
 }
